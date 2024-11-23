@@ -1,0 +1,221 @@
+<head>
+  <title> Discord Emojifier by Segger</title>
+</head>
+
+<body>
+  <div class="box">
+    <div class="box-title">Text Input</div>
+    <textarea id="translateInput" placeholder="Enter text to convert to Discord emojis."></textarea>
+  </div>
+
+  <!-- <div id=buttontainer>
+      <button id="copyButton" onclick="copyToClipboard()">Copy to Clipboard</button>
+  </div> -->
+
+  <div class="box">
+    <div class="box-title">Discord Output</div>
+    <textarea id="output" readonly></textarea>
+  </div>  
+  <div id='emojifier'> emojifier v1.0
+      <div id=segFooter><i><a href="/">Seglectic Softworks</a> 2018-2024</i></div>
+  </div>
+
+  <script>
+    function convert() {
+          var output = document.getElementById("output");
+          var input = document.getElementById("translateInput").value;
+          output.innerHTML = ABC.toEmoji(input.toLowerCase());
+      }
+
+    output.addEventListener("click", ()=>{
+        var output = document.getElementById("output");
+        var title = document.querySelector(".box:nth-of-type(2) .box-title");
+
+         // Copy the output text to clipboard
+         output.select(); // Highlight the text
+         output.setSelectionRange(0, 99999); // Mobile compatibility
+         navigator.clipboard.writeText(output.value).then(() => {
+             // Change title text and add flashing effect
+             const originalTitle = title.textContent;
+             title.textContent = "Copied to clipboard!";
+             title.classList.add("flash");
+          
+             // Revert to the original title after 1.5 seconds
+             setTimeout(() => {
+                 title.textContent = originalTitle;
+                 title.classList.remove("flash");
+             }, 1500);
+         }).catch(err => {
+             console.error("Failed to copy:", err);
+         });
+});
+  
+      var ABC = {
+        toEmoji: function (str) {
+            return str.replace(/[\s\S]/g, function (char) {
+                switch (char) {
+                    case ' ':
+                        return "  ";
+                    case '!':
+                        return ":exclamation:";
+                    case '?':
+                        return ":question:";
+                    case '#':
+                        return ":hash:";
+                    case '*':
+                        return ":asterisk:";
+                    default:
+                        if (char >= 'a' && char <= 'z') {
+                            return `:regional_indicator_${char}:`;
+                        }
+                        return char; // Fallback for unsupported characters
+                }
+            });
+        },
+    };
+
+      // Input event listener to update the output field 
+      document.getElementById("translateInput").addEventListener("input", convert);
+
+      // Copies the output text to the clipboard
+      function copyToClipboard() {
+          var output = document.getElementById("output");
+          output.select(); // Selects the text in the textarea
+          output.setSelectionRange(0, 99999); // For mobile compatibility
+          navigator.clipboard.writeText(output.value).then(() => {
+              alert("Copied to clipboard!");
+          }).catch(err => {
+            alert("Failed to copy: " + err);
+          });
+      }
+  </script>
+  <style type="text/css">
+      body {
+          background: linear-gradient(to bottom right, #333, #aaa);
+          font-family: monospace, courier;
+          color: white;
+      }
+  
+      #copyButton {
+          margin-left: 30%;
+          margin-top: 20px;
+          position: relative;
+          background-color: #444;
+          color: white;
+          font-family: "Arial", sans-serif;
+          font-size: 18px;
+          font-weight: bold;
+          border: none;
+          border-radius: 5px;
+          padding: 10px 20px;
+          cursor: pointer;
+      }
+  
+      #copyButton:hover {
+          background-color: #555;
+      }
+  
+  
+      #emojifier {
+          text-align: right;
+          font-size: 20px;
+          right: 0;
+          bottom: 0;
+          position: fixed;
+          padding: 10px;
+          width: 100%;
+          background-color: #121212;
+      }
+  
+      #segFooter {
+          font-size: 10px;
+          text-align: right;
+      }
+
+      a {
+          color: white;
+          text-decoration: none;
+      }
+
+      a:hover {
+          text-decoration: underline; /* Optional hover effect */
+          color: #d0966d; /* Slightly lighter shade for hover */
+      }
+
+      a:visited {
+          color: white; /* Ensures visited links stay white */
+      }
+
+      #output {
+          background-color: #444;
+          color: white;
+          font-family: monospace;
+          resize: none;
+          border: 2px solid #aaa; /* Highlight with a border */
+          outline: none;
+      }
+
+      #output:focus {
+          border-color: #fff; /* Brighter border when focused */
+      }
+  .box {
+    margin: 20px auto;
+    width: 50%;
+    border: 2px solid #444;
+    border-radius: 8px;
+    background-color: #222;
+    overflow: hidden; /* Ensures the title doesn't overlap */
+    position: relative;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); /* Adds a subtle shadow */
+}
+
+.box-title {
+    background-color: #333;
+    color: #fff;
+    font-family: monospace;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 8px 10px;
+    border-bottom: 2px solid #444;
+    text-transform: uppercase;
+}
+
+textarea {
+    width: calc(100% - 20px); /* Adjust width to account for padding */
+    height: 120px; /* Set consistent height for both fields */
+    font-family: monospace;
+    font-size: 14px;
+    color: white;
+    background-color: #111;
+    border: none;
+    padding: 10px;
+    resize: none;
+    outline: none;
+    box-sizing: border-box; /* Ensure padding doesn't affect width */
+    overflow: hidden;
+}
+
+  textarea#output {
+      background-color: #111; /* Ensures output matches input style */
+      cursor: pointer; /* Suggests interactivity for copying */
+      overflow: hidden;
+  }
+
+  .flash {
+      animation: flash 0.3s alternate 3; /* Flash effect */
+  }
+
+  @keyframes flash {
+      0% {
+          background-color: #333;
+          color: #fff;
+      }
+      100% {
+          background-color: #555;
+          color: #ffd700; /* Gold color */
+      }
+  }
+
+  </style>
+
+</body>
