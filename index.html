@@ -33,7 +33,7 @@
          navigator.clipboard.writeText(output.value).then(() => {
              // Change title text and add flashing effect
              const originalTitle = title.textContent;
-             title.textContent = "Copied to clipboard!";
+             title.textContent = "[Copied to clipboard]";
              title.classList.add("flash");
           
              // Revert to the original title after 1.5 seconds
@@ -62,7 +62,7 @@
                         return ":asterisk:";
                     default:
                         if (char >= 'a' && char <= 'z') {
-                            return `:regional_indicator_${char}:`;
+                            return `:regional_indicator_${char}: `;
                         }
                         return char; // Fallback for unsupported characters
                 }
